@@ -3,11 +3,11 @@
 To benchmark the performances of major cloud services when used as backup storages for Duplicacy. 
 
 ## Disclaimer
-As the independent developer, I am not affliated with any companies that provide these cloud storage services.  Nor do I receive any financial support/incenstive in publishing this report or building Duplicacy.
+As an independent developer, I am not affliated with any companies behind these cloud storage services.  Nor do I receive any financial support/incenstive in publishing this report or building Duplicacy.
 
 ## Setup
 
-All tests were performed on a virtual machine running on a 
+All tests were performed on a virtual machine running on a dedicated ESXi server located at 
 
 ## Dataset 1: the Linux code base
 
