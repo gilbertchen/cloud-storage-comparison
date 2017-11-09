@@ -15,8 +15,9 @@ As an independent developer, I am not affliated with any companies behind these 
 | Backblaze B2 | $0.005/GB | free | $0.02 | [yes](https://www.backblaze.com/b2/b2-transactions-price.html) |
 | Google Cloud Storage| $0.026/GB | free |$ 0.12/GB | [yes](https://cloud.google.com/storage/pricing) |
 | Microsoft Azure | $0.0184/GB | free | free | [yes](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/) |
-| Google Drive | 15GB free, $1.99/100GB, $9.99/TB | free | free | no |
-| Microsoft OneDrive | 5GB free, $1.99/50GB, $5.83/TB | free | free | no |
+| Google Drive | 15GB free <br> $1.99/100GB <br> $9.99/TB | free | free | no |
+| Microsoft OneDrive | 5GB free <br> $1.99/50GB <br> $5.83/TB | free | free | no |
+| Dropbox | 2GB free <br> $8.25/TB | free | free | no |
 
 ## Setup
 
