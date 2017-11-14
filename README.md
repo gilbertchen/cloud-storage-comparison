@@ -3,11 +3,11 @@
 To compare the performances of major cloud services when used as backup storages for [Duplicacy](https://github.com/gilbertchen/duplicacy). 
 
 ## Disclaimer
-As an independent developer, I am not affliated with any companies behind these cloud storage services.  Nor do I receive any financial support/incenstive from any of them for publishing this report or building Duplicacy.
+As an independent developer, I am not affiliated with any companies behind these cloud storage services.  Nor do I receive any financial support/incentive from any of them for publishing this report or building Duplicacy.
 
 ## Storages
 
-The table below lists the storages to be tested and compares their pricings.  The only storage supported by Duplicacy but not included in the comparison is Hubic.  That is because Hubic is considerably slower than others, likely caused by their https servers not allowing connections to be reused so there is too much overhead for re-estabilishing https connections with each file transfer.
+The table below lists the storages to be tested and compares their pricing.  The only storage supported by Duplicacy but not included in the comparison is Hubic.  That is because Hubic is considerably slower than others, likely caused by their https servers not allowing connections to be reused so there is too much overhead for re-establishing https connections with each file transfer.
 
 | Type         |   Storage (monthly)    |   Upload           |    Download    |    API Charge   |
 |:------------:|:-------------:|:------------------:|:--------------:|:-----------:|
@@ -53,7 +53,7 @@ Here are the elapsed real times (in seconds) of the backup and restore operation
 | Microsoft OneDrive   |  250.0 | 31.6 | 80.2  | 16.9 | 82.7  | 36.4 | 333.4 | 26.2 | 82.0 | 12.9 | 71.1 | 24.4 |  
 | Dropbox              |  267.2 | 35.8 | 113.7 | 19.5 | 109.0 | 38.3 | 164.0 | 31.6 | 80.3 | 14.3 | 73.4 | 22.9 | 
 
-These results indicate that the performances of cloud storages vary a lot.  While S3-compatiable ones (Amazon, Wasabi, and DigitalOcean) and Azure can back up and restore at speeds close to those of the local SFTP storage, others are much slower.  However, one of the advantages of cloud storages is that most of them support simultaneous connections, so we can keep increasing the number of threads until the local processing or the network becomes the bottleneck.
+These results indicate that the performances of cloud storages vary a lot.  While S3-compatible ones (Amazon, Wasabi, and DigitalOcean) and Azure can back up and restore at speeds close to those of the local SFTP storage, others are much slower.  However, one of the advantages of cloud storages is that most of them support simultaneous connections, so we can keep increasing the number of threads until the local processing or the network becomes the bottleneck.
 
 The following table shows new results with 4 threads:
 
@@ -70,7 +70,7 @@ The following table shows new results with 4 threads:
 | Microsoft OneDrive   |  137.2 | 14.4 | 35.0 | 13.2 | 42.0 | 17.9 | 64.4 | 19.4 | 34.9 | 13.8 | 30.2 | 11.0 | 
 
 
-Dropbox doesn't seem to support simultaneous writes, so it was missing from the table.  Moreover, Google Drive was the only cloud storage that did't benefit from the use of multiple threads, possibly due to strict per-user rate limiting.  Amazon S3, Wasabi, DigitalOcean, and Azure all achieved comparable or even slightly superior performances than the SFTP storage. 
+Dropbox doesn't seem to support simultaneous writes, so it was missing from the table.  Moreover, Google Drive was the only cloud storage that didn't benefit from the use of multiple threads, possibly due to strict per-user rate limiting.  Amazon S3, Wasabi, DigitalOcean, and Azure all achieved comparable or even slightly superior performances than the SFTP storage. 
 
 ## Dataset 2: a VirtualBox virtual machine
 
@@ -111,6 +111,6 @@ Similar performance improvements can be observed with 4 threads:
 
 As far as I know, this is perhaps the first head-to-head performance comparisons of popular cloud backup storages.  Although results presented here are neither comprehensive nor conclusive, I do hope that they will at least provide some guidance for users of Duplicacy or other cloud backup tools when deciding which cloud service to choose.
 
-These results also suggest that storages designed to be primarily accessed via an API are generally faster than storages that are offered as cloud drives, since the latter are perhpaps more optimized for their own clients with the API access merely being an addon.
+These results also suggest that storages designed to be primarily accessed via an API are generally faster than storages that are offered as cloud drives, since the latter are perhaps more optimized for their own clients with the API access merely being an addon.
 
-The more imporant message, however, is that cloud backup can be as fast as local backup, with only modest network bandwidth, especially if you can use multiple threads.  It may be worth a try to add cloud components to your backup strategies if you haven't already done so.
+The more important message, however, is that cloud backup can be as fast as local backup, with only modest network bandwidth, especially if you can use multiple threads.  It may be worth a try to add cloud components to your backup strategies if you haven't already done so.
