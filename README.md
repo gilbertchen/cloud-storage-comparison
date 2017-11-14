@@ -7,7 +7,7 @@ As an independent developer, I am not affliated with any companies behind these 
 
 ## Storages
 
-The table below lists the storages to be tested and compares their pricings.  The only storage supported by Duplicacy but not included in the comparison is Hubic.  That is because Hubic is considerably slower than others, likely caused by their https servers not allowing connection reuse so there is too much overhead for re-estabilishing https connections with each file transfer.
+The table below lists the storages to be tested and compares their pricings.  The only storage supported by Duplicacy but not included in the comparison is Hubic.  That is because Hubic is considerably slower than others, likely caused by their https servers not allowing connections to be reused so there is too much overhead for re-estabilishing https connections with each file transfer.
 
 | Type         |   Storage (monthly)    |   Upload           |    Download    |    API Charge   |
 |:------------:|:-------------:|:------------------:|:--------------:|:-----------:|
@@ -25,9 +25,9 @@ The table below lists the storages to be tested and compares their pricings.  Th
 
 All tests were performed on a Ubuntu 16.04.1 LTS virtual machine running on a dedicated ESXi server with an Intel Xeon D-1520 CPU (4 cores at 2.2 GHz) and 32G memory.  The server is located at the east coast, so the results may be biased against those services who have their servers on the west coast.  The network bandwidth is 200Mbps.
 
-The 2 datasets in https://github.com/gilbertchen/benchmarking are used to test backup and restore speeds.  It should be noted that this is not a simple file upload and download test.  Before uploading a chunk to the storage, Duplicacy always checks first if the chunk already exists on the storage, in order to take advantage of [cross-computer deduplication](https://github.com/gilbertchen/duplicacy/blob/master/DESIGN.md) if two computers happen to have identical or similar files.  This existence check means that one extra API call is needed for each chunk to be uploaded. 
+The same 2 datasets in https://github.com/gilbertchen/benchmarking are used to test backup and restore speeds.  It should be noted that this is not a simple file upload and download test.  Before uploading a chunk to the storage, Duplicacy always checks first if the chunk already exists on the storage, in order to take advantage of [cross-computer deduplication](https://github.com/gilbertchen/duplicacy/blob/master/DESIGN.md) if two computers happen to have identical or similar files.  This existence check means that at least one extra API call is needed for each chunk to be uploaded. 
 
-An SFTP storage is also included in the test to compare cloud storages with a local storage.  The SFTP server is a different virtual machine running on the same ESXi host.
+A local SFTP storage is also included in the test to provide a base line for the comparisons.  The SFTP server runs on a different virtual machine on the same ESXi host.
 
 ## Dataset 1: the Linux code base
 
@@ -35,7 +35,7 @@ The first dataset is the [Linux code base](https://github.com/torvalds/linux) wi
 
 To test incremental backup, a random commit on July 2016 was selected, and the entire code base is rolled back to that commit. After the initial backup was finished, other commits were chosen such that they were about one month apart.  The code base is then moved forward to these commits one by one to emulate incremental changes.  Details can be found in linux-backup-cloud.sh.
 
-Restore was tested the same way.  The first store is a full restore of the first backup on an empty repository, and each subsequent restore is an increment one that only patches files changed by each commit.  The following table lists the elapsed real times (in seconds) of the restore operations:
+Restore was tested the same way.  The first restore is a full restore of the first backup on an empty repository, and each subsequent restore is an incremental one that only patches files changed by each commit.
 
 Here are the elapsed real times (in seconds) of the backup and restore operations as reported by the `time` command:
 
@@ -53,7 +53,7 @@ Here are the elapsed real times (in seconds) of the backup and restore operation
 | Microsoft OneDrive   |  250.0 | 31.6 | 80.2  | 16.9 | 82.7  | 36.4 | 333.4 | 26.2 | 82.0 | 12.9 | 71.1 | 24.4 |  
 | Dropbox              |  267.2 | 35.8 | 113.7 | 19.5 | 109.0 | 38.3 | 164.0 | 31.6 | 80.3 | 14.3 | 73.4 | 22.9 | 
 
-These results indicate that the performances of cloud storages vary a lot.  While S3-compatiable ones (Amazon, Wasabi, and DigitalOcean) and Azure can back up and restore at speeds close to those of the SFTP storage, others are much slower.  However, one of the advantages of cloud storages is that most of them support simultaneous connections, so we can keep increasing the number of threads until the local processing or the network becomes the bottleneck.
+These results indicate that the performances of cloud storages vary a lot.  While S3-compatiable ones (Amazon, Wasabi, and DigitalOcean) and Azure can back up and restore at speeds close to those of the local SFTP storage, others are much slower.  However, one of the advantages of cloud storages is that most of them support simultaneous connections, so we can keep increasing the number of threads until the local processing or the network becomes the bottleneck.
 
 The following table shows new results with 4 threads:
 
@@ -70,7 +70,7 @@ The following table shows new results with 4 threads:
 | Microsoft OneDrive   |  137.2 | 14.4 | 35.0 | 13.2 | 42.0 | 17.9 | 64.4 | 19.4 | 34.9 | 13.8 | 30.2 | 11.0 | 
 
 
-Dropbox doesn't seem to support simultaneous writes, so it was missing from the table.  Moreover, Google Drive was the only cloud storage that did't benefit from multiple threads, possibly due to strict per-user rate limiting.  Amazon, Wasabi, DigitalOcean, Azure, Google Cloud Storage, and Azure all achieved comparable or even slightly superior performances than the SFTP storage. 
+Dropbox doesn't seem to support simultaneous writes, so it was missing from the table.  Moreover, Google Drive was the only cloud storage that did't benefit from the use of multiple threads, possibly due to strict per-user rate limiting.  Amazon S3, Wasabi, DigitalOcean, and Azure all achieved comparable or even slightly superior performances than the SFTP storage. 
 
 ## Dataset 2: a VirtualBox virtual machine
 
@@ -109,8 +109,8 @@ Similar performance improvements can be observed with 4 threads:
 
 ## Conclusion
 
-As far as I know, this is perhaps the first head-to-head performance comparisons of popular cloud backup storages.  Although results presented here are neither comprehensive nor conclusive, I do hope that they will at least provide some guidance when users of Duplicacy or other cloud backup tools are deciding which cloud service to choose.
+As far as I know, this is perhaps the first head-to-head performance comparisons of popular cloud backup storages.  Although results presented here are neither comprehensive nor conclusive, I do hope that they will at least provide some guidance for users of Duplicacy or other cloud backup tools when deciding which cloud service to choose.
 
 These results also suggest that storages designed to be primarily accessed via an API are generally faster than storages that are offered as cloud drives, since the latter are perhpaps more optimized for their own clients with the API access merely being an addon.
 
-The more imporant message, however, is that cloud backup can be faster than local backup, with only modest network bandwidth, if you can use multiple threads.  So it may worth a try to add cloud components to your backup strategies if you haven't done so.
+The more imporant message, however, is that cloud backup can be as fast as local backup, with only modest network bandwidth, especially if you can use multiple threads.  It may be worth a try to add cloud components to your backup strategies if you haven't already done so.
