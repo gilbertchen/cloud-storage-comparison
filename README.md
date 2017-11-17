@@ -29,6 +29,8 @@ The same 2 datasets in https://github.com/gilbertchen/benchmarking are used to t
 
 A local SFTP storage is also included in the test to provide a base line for the comparisons.  The SFTP server runs on a different virtual machine on the same ESXi host.
 
+All scripts to run the tests are available in this repo so you can run your own tests.
+
 ## Dataset 1: the Linux code base
 
 The first dataset is the [Linux code base](https://github.com/torvalds/linux) with a total size of 1.76 GB and about 58K files, so it is a relatively small repository consisting of small files, but it represents a popular use case where a backup tool runs alongside a version control program such as git to frequently save changes made between checkins.
