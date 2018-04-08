@@ -39,8 +39,7 @@ To test incremental backup, a random commit on July 2016 was selected, and the e
 
 Restore was tested the same way.  The first restore is a full restore of the first backup on an empty repository, and each subsequent restore is an incremental one that only patches files changed by each commit.
 
-Here are the elapsed real times (in seconds) of the backup and restore operations as reported by the `time` command:
-
+All running times of the backup and restore operations were measured by the `time` command as the real elapsed times:
 
 ![cloud_comparison_linux_1](https://github.com/gilbertchen/cloud-storage-comparison/blob/master/images/cloud_comparison_linux_1.png)
 
@@ -58,7 +57,7 @@ The second test was targeted at the other end of the spectrum - datasets with fe
 
 The first backup was performed right after the virtual machine had been set up without installing new software.  The second backup was performed after installing common developer tools using the command `yum groupinstall 'Development Tools'`.  The third backup was performed after a power-on immediately followed by a power-off.  The first restore is a full restore of the first backup on an empty directory, while the second and third are incremental.
 
-The following table lists the elapsed real times (in seconds) of the backup and restore operations:
+The following chart compares real times (in seconds) of the backup and restore operations:
 
 ![cloud_comparison_vm_1](https://github.com/gilbertchen/cloud-storage-comparison/blob/master/images/cloud_comparison_vm_1.png)
 
