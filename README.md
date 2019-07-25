@@ -12,9 +12,9 @@ The table below lists the storages to be tested and compares their pricing.  The
 | Type         |   Storage (monthly)    |   Upload           |    Download    |    API Charge   |
 |:------------:|:-------------:|:------------------:|:--------------:|:-----------:|
 | Amazon S3    | $0.023/GB | free | $0.09/GB | [yes](https://aws.amazon.com/s3/pricing/) |
-| Wasabi       | $3.99 first 1TB <br> $0.0039/GB additional | free | $.04/GB | no |
+| Wasabi       | $0.00599/GB | free | free | no |
 | DigitalOcean Spaces| $5 first 250GB <br> $0.02/GB additional | free | first 1TB free <br> $0.01/GB additional| no |
-| Backblaze B2 | $0.005/GB | free | $0.02/GB | [yes](https://www.backblaze.com/b2/b2-transactions-price.html) |
+| Backblaze B2 | $0.005/GB | free | $0.01/GB | [yes](https://www.backblaze.com/b2/b2-transactions-price.html) |
 | Google Cloud Storage| $0.026/GB | free |$ 0.12/GB | [yes](https://cloud.google.com/storage/pricing) |
 | Google Drive | 15GB free <br> $1.99/100GB <br> $9.99/TB | free | free | no |
 | Microsoft Azure | $0.0184/GB | free | free | [yes](https://azure.microsoft.com/en-us/pricing/details/storage/blobs/) |
